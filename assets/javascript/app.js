@@ -77,10 +77,11 @@ $('document').ready(function() {
         console.log("click");
         $(this).hide();
         showQuestion();
+        showAnswers();
         // play();
         if (counter < triviaQuestions.length) {
             showQuestion(counter);
-            counter += 1;
+            // counter += 1;
             // runTimer();
         } else {
             endTrivia();
@@ -91,17 +92,36 @@ $('document').ready(function() {
     function play() {
         intervalId = setInterval(timerCount, 1000);
     }
-    function end() {
+    function endTrivia() {
         clearInterval(intervalId);
     }
 
     // show question
     function showQuestion() {
         $("#question").text(triviaQuestions[counter].question);
-
-        for (var i = 0; i < 4; i++) {
-            $("#answers").html(triviaQuestions[counter].options[i]);
-        }   
+        answerSelection();
     }
 
+    function showAnswers() {
+        $(".answer1").text(triviaQuestions[counter].options[0]);
+        $(".answer2").text(triviaQuestions[counter].options[1]);
+        $(".answer3").text(triviaQuestions[counter].options[2]);
+        $(".answer4").text(triviaQuestions[counter].options[3]);
+    }
+
+    function answerSelection() {
+        $(".answers").on("click",function(){
+            var text= $(this).text();
+            if(text === triviaQuestions[counter].answer) {
+                correct ++;
+                $("#resultArea1").text("Correct!")
+                $("#resultArea2").text(triviaQuestions[counter].answerText)
+            } else {
+                incorrect ++;
+                $("#resultArea1").text("Nope! The correct answer is " + triviaQuestions[counter].answer)
+                $("#resultArea2").text(triviaQuestions[counter].answerText)
+            }
+        });
+            
+    }
 });  // Close document ready

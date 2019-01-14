@@ -18,6 +18,7 @@
                 </div>
                 <div class="col-md-2">
                 </div>
+                <div class="col-md-12"><hr></div>
             </div>
         </div>
 
@@ -26,7 +27,6 @@
                 <div class="col-md-2">
                     <!-- spacing -->
                 </div>
-
                 <!-- Container for questions -->
                 <div class="game col-md-8 text-center">
                     <div id="start">
@@ -36,11 +36,14 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
-                                <div id="question">
-                                </div>
+                                <h4 id="question"></h4>
                             </div>
-                            <div class="col-md-6"> 
-                                <div id="answers">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 answer1 answers" id="option1"></div>
+                                    <div class="col-md-12 answer2 answers" id="option2"></div>
+                                    <div class="col-md-12 answer3 answers" id="option3"></div>
+                                    <div class="col-md-12 answer4 answers" id="option4"></div>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +52,15 @@
 
                 <div class="col-md-2">
                     <!-- spacing -->
+                </div><hr>
+
+                <!-- Results -->
+                <div class="col-md-2"></div>
+                <div class="col-md-8 text-center">
+                    <h1 id="resultArea1"></h1>
+                    <h5 id="resultArea2"></h5>
                 </div>
+                <div class="col-md-2"></div>
 
             </div>
         </div> <!-- close container -->
