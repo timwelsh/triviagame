@@ -6,6 +6,7 @@ $('document').ready(function() {
     var incorrect = 0;
     var timer = 30;
     var counter = 0;
+    var intervalID;
 
     //Trivia Questions/Answers array object
     var triviaQuestions = [
@@ -73,20 +74,20 @@ $('document').ready(function() {
     
     // button click
     $("#start").on('click', function() {
-        console.log(this);
         $(this).hide();
         showQuestion(counter);
         showAnswers(counter);
-        // play();
+        runTimer();
+        $("#timer").css({visibility:"visible"});
     });
 
     //Start countdown
     function play() {
         intervalId = setInterval(timerCount, 1000);
     }
-    function endTrivia() {
-        clearInterval(intervalId);
-    }
+    // function endTrivia() {
+    //     clearInterval(intervalId);
+    // }
 
     // show question
     function showQuestion(a) {
@@ -109,8 +110,25 @@ $('document').ready(function() {
      function showNextButton() {
         $(".next").show();
      }
-
-    $(document).on("click", ".answers", function(){
+    //  Start and stop timer
+     function runTimer() {
+        clearInterval(interval);
+        intervalID = setInterval(decrement, 20000);
+      }
+      function decrement() {
+          timer--;
+          $("#time").html("<h3>" + timer + "</h3>");
+      }
+    function stopTimer(){
+        clearInterval(interval);
+        document.getElementById("time").textContent = "";
+        $("#timer").css({visibility:"hidden"});
+}
+function now() {
+    return ((new Date()).getTime());
+  }
+    //Give some logic behind when an answer is selected
+    $(document).on("click", ".answers", function() {
         var text= $(this).text();
         if(text === triviaQuestions[counter].answer) {
             correct ++;
@@ -120,6 +138,7 @@ $('document').ready(function() {
             $("#resultArea1").show();
             $("#resultArea2").show();
             showNextButton();
+            stopTimer();
         } else {
             incorrect ++;
             $('.answers').hide().css("visibility", "hidden");
@@ -128,6 +147,7 @@ $('document').ready(function() {
             $("#resultArea1").show();
             $("#resultArea2").show();
             showNextButton();
+            stopTimer();
         }
     });
 
