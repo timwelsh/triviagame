@@ -5,15 +5,14 @@ $('document').ready(function() {
     var correct = 0;
     var incorrect = 0;
     var timer = 30;
-    var counter = 1;
-    
-    //Trivia Questions/Answers array object
+    var counter = 0;
 
+    //Trivia Questions/Answers array object
     var triviaQuestions = [
         question1 = {
             question: 'What is the only sea without any coasts?',
             answer: 'Sargasso Sea',
-            options: ['Sea of Galilie', 'Sargasso Sea','Mediteranian Sea','Adriatica Sea'],
+            options: ['Sea of Galilee', 'Sargasso Sea','Mediteranian Sea','Adriatica Sea'],
             answerText: 'The Sargasso Sea is a region in the middle of the North Atlantic Ocean. Surrounded by ocean currents, it is the only sea on Earth which has no coastline. It is bounded on the west by the Gulf Stream; on the north, by the North Atlantic Current; on the east, by the Canary Current; and on the south, by the North Atlantic Equatorial Current.'
         },
         question2 = {
@@ -74,18 +73,11 @@ $('document').ready(function() {
     
     // button click
     $("#start").on('click', function() {
-        console.log("click");
+        console.log(this);
         $(this).hide();
-        showQuestion();
-        showAnswers();
+        showQuestion(counter);
+        showAnswers(counter);
         // play();
-        if (counter < triviaQuestions.length) {
-            showQuestion(counter);
-            // counter += 1;
-            // runTimer();
-        } else {
-            endTrivia();
-        }
     });
 
     //Start countdown
@@ -97,31 +89,64 @@ $('document').ready(function() {
     }
 
     // show question
-    function showQuestion() {
-        $("#question").text(triviaQuestions[counter].question);
-        answerSelection();
+    function showQuestion(a) {
+        $("#question").text(triviaQuestions[a].question);
     }
 
-    function showAnswers() {
-        $(".answer1").text(triviaQuestions[counter].options[0]);
-        $(".answer2").text(triviaQuestions[counter].options[1]);
-        $(".answer3").text(triviaQuestions[counter].options[2]);
-        $(".answer4").text(triviaQuestions[counter].options[3]);
+    function showAnswers(a) {
+        $(".answer1").text(triviaQuestions[a].options[0]);
+        $(".answer2").text(triviaQuestions[a].options[1]);
+        $(".answer3").text(triviaQuestions[a].options[2]);
+        $(".answer4").text(triviaQuestions[a].options[3]);
+        $(".answers").show().css("visibility", "visible");
     }
 
-    function answerSelection() {
-        $(".answers").on("click",function(){
-            var text= $(this).text();
-            if(text === triviaQuestions[counter].answer) {
-                correct ++;
-                $("#resultArea1").text("Correct!")
-                $("#resultArea2").text(triviaQuestions[counter].answerText)
-            } else {
-                incorrect ++;
-                $("#resultArea1").text("Nope! The correct answer is " + triviaQuestions[counter].answer)
-                $("#resultArea2").text(triviaQuestions[counter].answerText)
-            }
-        });
+     function hideNextButton() {
+        $(".next").hide();
+     }
+     hideNextButton();
+
+     function showNextButton() {
+        $(".next").show();
+     }
+
+    $(document).on("click", ".answers", function(){
+        var text= $(this).text();
+        if(text === triviaQuestions[counter].answer) {
+            correct ++;
+            $('.answers').hide().css("visibility", "hidden");
+            $("#resultArea1").text("Correct!")
+            $("#resultArea2").text(triviaQuestions[counter].answerText)
+            $("#resultArea1").show();
+            $("#resultArea2").show();
+            showNextButton();
+        } else {
+            incorrect ++;
+            $('.answers').hide().css("visibility", "hidden");
+            $("#resultArea1").text("Nope! The correct answer is " + triviaQuestions[counter].answer)
+            $("#resultArea2").text(triviaQuestions[counter].answerText)
+            $("#resultArea1").show();
+            $("#resultArea2").show();
+            showNextButton();
+        }
+    });
+
+    //Next Button Functionality
+    $(document).on("click", ".next", function(){
+        if(counter === triviaQuestions.length) {
+            //game over, show final results
+            $("#resultArea1").hide();
+            $("#resultArea2").hide();
+        } else {
+            //go to next question
+            hideNextButton();
+            counter ++;
+            showQuestion(counter);
+            showAnswers(counter);
+            $("#resultArea1").hide();
+            $("#resultArea2").hide();
+            console.log(counter + ' counter ');
+        }
+    });
             
-    }
 });  // Close document ready
